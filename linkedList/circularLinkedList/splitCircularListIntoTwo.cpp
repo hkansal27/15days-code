@@ -1,5 +1,4 @@
-// A simple program to insert elements in the circular linked list.
-
+// A simple program to split the circular linked list into two.
 
 #include<iostream>
 
@@ -10,7 +9,6 @@ public:
     int data;
     Node * next;
 };
-
 
 int pushElement(Node ** head_ref, int data ) {
 
@@ -33,7 +31,6 @@ int pushElement(Node ** head_ref, int data ) {
     temp -> next = *head_ref;
     return 1;
 }
-// do while
 
 void printData(Node ** head_ref) {
 
@@ -44,26 +41,51 @@ void printData(Node ** head_ref) {
     }
     while(current != *head_ref);
 }
-/*
-void printData(Node ** head_ref) {
 
+void splitTwo(Node ** head_ref, Node ** head1, Node ** head2) {
     Node * current = *head_ref;
-    while(current -> next != *head_ref) {
-        cout<<current -> data << endl;
-        current = current -> next;
+
+    Node * slow_ptr = current, * fast_ptr = current;
+
+    while(fast_ptr -> next != *head_ref) {
+
+        if(fast_ptr -> next -> next != *head_ref) {
+            slow_ptr = slow_ptr -> next;
+            fast_ptr = fast_ptr -> next -> next;
+        } else {
+            fast_ptr = fast_ptr -> next;
+        }
     }
-    cout<<current -> data << endl;
-} */
+    // second half
+    fast_ptr -> next = slow_ptr  -> next;
+    *head2 = slow_ptr -> next;
+
+    // first half
+    *head1 = *head_ref;
+    slow_ptr -> next = *head_ref;
+}
 
 int main() {
     Node * head = nullptr;
+    Node * head1 = nullptr;
+    Node * head2 = nullptr;
 
     pushElement(&head, 20);
     pushElement(&head, 4);
     pushElement(&head, 15);
     pushElement(&head, 10);
+    pushElement(&head, 25);
 
+    cout << "Original data" << endl;
     printData(&head);
+
+    splitTwo(&head, &head1, &head2);
+
+    cout << "First one" << endl;
+    printData(&head1);
+
+    cout << "Second one" << endl;
+    printData(&head2);
 
     return 0;
 }
