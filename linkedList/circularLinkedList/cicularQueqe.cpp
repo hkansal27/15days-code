@@ -41,7 +41,7 @@ void enQueue(Queue ** q_ref, int data) {
     if(q -> frontElement == nullptr) {
         q -> frontElement = temp;
     } else {
-        temp -> link = q -> rearElement;
+        q -> rearElement -> link = temp;
     }
     q -> rearElement = temp;
     q -> rearElement -> link = q -> frontElement;
@@ -73,7 +73,7 @@ int deQueue(Queue ** q_ref) {
 }
 
 void displayQueue(Queue ** q_ref) {
-    Node * temp = (*q_ref) -> frontElement;
+    Node * temp = (* q_ref) -> frontElement;
 
     do {
         cout << temp -> data << endl;
@@ -91,15 +91,13 @@ int main() {
     enQueue(&q, 14);
     enQueue(&q, 22);
     enQueue(&q, 6);
-
     cout << "enqueue successful" << endl;
 
-    // Display elements present in Circular Queue
     displayQueue(&q);
 
     // Deleting elements from Circular Queue
     cout << "\nDeleted value = %d" << deQueue(&q);
-    cout << "\nDeleted value = %d" << deQueue(&q);
+    cout << "\nDeleted value = %d" << deQueue(&q) << endl;
 
     // Remaining elements in Circular Queue
     displayQueue(&q);
